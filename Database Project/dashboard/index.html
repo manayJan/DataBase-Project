@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Management System Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <h2><i class="fas fa-school"></i> <span>School Management</span></h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </li>
+                <li class="nav-item" onclick="showSection('students')">
+                    <i class="fas fa-users"></i>
+                    <span>Students</span>
+                </li>
+                <li class="nav-item" onclick="showSection('teachers')">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>Teachers</span>
+                </li>
+                <li class="nav-item" onclick="showSection('courses')">
+                    <i class="fas fa-book-open"></i>
+                    <span>Courses</span>
+                </li>
+                <li class="nav-item" onclick="showSection('attendance')">
+                    <i class="fas fa-clipboard-check"></i>
+                    <span>Attendance</span>
+                </li>
+                <li class="nav-item" onclick="showSection('grades')">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Grades</span>
+                </li>
+                <li class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <h1 id="page-title">Dashboard</h1>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-cards">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h3>Total Students</h3>
+                        <h2 id="total-students">1,248</h2>
+                    </div>
+                    <div class="stat-icon students-stat">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h3>Total Teachers</h3>
+                        <h2>84</h2>
+                    </div>
+                    <div class="stat-icon teachers-stat">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h3>Active Courses</h3>
+                        <h2>42</h2>
+                    </div>
+                    <div class="stat-icon courses-stat">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h3>Today's Attendance</h3>
+                        <h2>92%</h2>
+                    </div>
+                    <div class="stat-icon attendance-stat">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Students Section -->
+            <div id="students-section" class="dashboard-section">
+                <div class="section-header">
+                    <h2>Student Management</h2>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="openAddStudentForm()">
+                            <i class="fas fa-user-plus"></i> Add New Student
+                        </button>
+                        <button class="btn btn-success" onclick="exportStudents()">
+                            <i class="fas fa-file-csv"></i> Export CSV
+                        </button>
+                        <button class="btn btn-warning" onclick="printStudents()">
+                            <i class="fas fa-print"></i> Print
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Search & Filter Bar -->
+                <div class="search-filter-bar">
+                    <div class="search-input">
+                        <input type="text" id="studentSearch" placeholder="Search by name, email or ID...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <select id="gradeFilter" class="filter-select">
+                        <option value="">All Grades</option>
+                        <option value="Grade 9">Grade 9</option>
+                        <option value="Grade 10">Grade 10</option>
+                        <option value="Grade 11">Grade 11</option>
+                        <option value="Grade 12">Grade 12</option>
+                    </select>
+                    <select id="statusFilter" class="filter-select">
+                        <option value="">All Status</option>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                        <option value="Graduated">Graduated</option>
+                        <option value="Transferred">Transferred</option>
+                    </select>
+                </div>
+
+                <!-- Students Table -->
+                <div class="table-responsive">
+                    <table id="students-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Grade</th>
+                                <th>Enrollment Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="students-table-body">
+                            <!-- Students will be dynamically added here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Teachers Section -->
+            <div id="teachers-section" class="dashboard-section" style="display: none;">
+                <div class="section-header">
+                    <h2>Teacher Management</h2>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-user-plus"></i> Add Teacher
+                        </button>
+                    </div>
+                </div>
+                <p style="text-align: center; color: #94a3b8; padding: 40px 20px;">
+                    <i class="fas fa-cogs" style="font-size: 32px; margin-bottom: 10px;"></i><br>
+                    Teacher management content coming soon...
+                </p>
+            </div>
+
+            <!-- Courses Section -->
+            <div id="courses-section" class="dashboard-section" style="display: none;">
+                <div class="section-header">
+                    <h2>Course Management</h2>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Add Course
+                        </button>
+                    </div>
+                </div>
+                <p style="text-align: center; color: #94a3b8; padding: 40px 20px;">
+                    <i class="fas fa-cogs" style="font-size: 32px; margin-bottom: 10px;"></i><br>
+                    Course management content coming soon...
+                </p>
+            </div>
+
+            <!-- Attendance Section -->
+            <div id="attendance-section" class="dashboard-section" style="display: none;">
+                <div class="section-header">
+                    <h2>Attendance Tracking</h2>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-clipboard-list"></i> Take Attendance
+                        </button>
+                    </div>
+                </div>
+                <p style="text-align: center; color: #94a3b8; padding: 40px 20px;">
+                    <i class="fas fa-cogs" style="font-size: 32px; margin-bottom: 10px;"></i><br>
+                    Attendance tracking content coming soon...
+                </p>
+            </div>
+
+            <!-- Grades Section -->
+            <div id="grades-section" class="dashboard-section" style="display: none;">
+                <div class="section-header">
+                    <h2>Grades Management</h2>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-edit"></i> Enter Grades
+                        </button>
+                    </div>
+                </div>
+                <p style="text-align: center; color: #94a3b8; padding: 40px 20px;">
+                    <i class="fas fa-cogs" style="font-size: 32px; margin-bottom: 10px;"></i><br>
+                    Grades management content coming soon...
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Student Form Modal -->
+    <div id="addStudentForm" class="form-overlay">
+        <div class="form-container">
+            <div class="form-header">
+                <h2><i class="fas fa-user-plus"></i> Add New Student</h2>
+                <button class="close-btn" onclick="closeAddStudentForm()">&times;</button>
+            </div>
+            <form id="studentForm">
+                <div class="form-group">
+                    <label for="studentName">Full Name *</label>
+                    <input type="text" id="studentName" class="form-control" placeholder="Enter full name" required>
+                    <div class="error-message"></div>
+                </div>
+                <div class="form-group">
+                    <label for="studentEmail">Email Address *</label>
+                    <input type="email" id="studentEmail" class="form-control" placeholder="Enter email address" required>
+                    <div class="error-message"></div>
+                </div>
+                <div class="form-group">
+                    <label for="studentPhone">Phone Number</label>
+                    <input type="tel" id="studentPhone" class="form-control" placeholder="Enter phone number">
+                </div>
+                <div class="form-group">
+                    <label for="studentGrade">Grade/Class *</label>
+                    <select id="studentGrade" class="form-control" required>
+                        <option value="">Select Grade</option>
+                        <option value="Grade 9">Grade 9</option>
+                        <option value="Grade 10">Grade 10</option>
+                        <option value="Grade 11">Grade 11</option>
+                        <option value="Grade 12">Grade 12</option>
+                    </select>
+                    <div class="error-message"></div>
+                </div>
+                <div class="form-group">
+                    <label for="studentDob">Date of Birth</label>
+                    <input type="date" id="studentDob" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="studentAddress">Address</label>
+                    <textarea id="studentAddress" class="form-control" rows="3" placeholder="Enter address"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-danger" onclick="closeAddStudentForm()">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-check"></i> Add Student
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Student Form Modal -->
+    <div id="editStudentForm" class="form-overlay">
+        <div class="form-container">
+            <div class="form-header">
+                <h2><i class="fas fa-edit"></i> Edit Student</h2>
+                <button class="close-btn" onclick="closeEditStudentForm()">&times;</button>
+            </div>
+            <form id="editForm">
+                <input type="hidden" id="editStudentId">
+                <div class="form-group">
+                    <label for="editStudentName">Full Name *</label>
+                    <input type="text" id="editStudentName" class="form-control" required>
+                    <div class="error-message"></div>
+                </div>
+                <div class="form-group">
+                    <label for="editStudentEmail">Email Address *</label>
+                    <input type="email" id="editStudentEmail" class="form-control" required>
+                    <div class="error-message"></div>
+                </div>
+                <div class="form-group">
+                    <label for="editStudentGrade">Grade/Class *</label>
+                    <select id="editStudentGrade" class="form-control" required>
+                        <option value="">Select Grade</option>
+                        <option value="Grade 9">Grade 9</option>
+                        <option value="Grade 10">Grade 10</option>
+                        <option value="Grade 11">Grade 11</option>
+                        <option value="Grade 12">Grade 12</option>
+                    </select>
+                    <div class="error-message"></div>
+                </div>
+                <div class="form-group">
+                    <label for="editStudentStatus">Status</label>
+                    <select id="editStudentStatus" class="form-control">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                        <option value="Graduated">Graduated</option>
+                        <option value="Transferred">Transferred</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-danger" onclick="closeEditStudentForm()">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-check"></i> Update Student
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
